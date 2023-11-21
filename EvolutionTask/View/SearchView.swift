@@ -35,20 +35,34 @@ struct SearchView: View {
                         }
                 }
                 
-                Spacer()
-                ScrollView {
-                    ForEach(countryViewModel.fetchedCountries ?? []) { country in
-                        NavigationLink {
-                            CountryDetailView(country: country)
-                                .environmentObject(countryViewModel)
-                        } label: {
-                            CountryListView(country: country)
-                                .frame(width: 380, height: 130)
-                                .cornerRadius(20)
+                if countryViewModel.searchedCountry == "" {
+                    Spacer()
+                    Image("arrow")
+                        .resizable()
+                        .frame(width: 300, height: 300)
+                        .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                        .rotationEffect(.degrees(60))
+                        .offset(y:-100)
+                    
+                    Text("Start your search!")
+                        .offset(y:-50)
+                    Spacer()
+                } else {
+                    Spacer()
+                    ScrollView {
+                        ForEach(countryViewModel.fetchedCountries ?? []) { country in
+                            NavigationLink {
+                                CountryDetailView(country: country)
+                                    .environmentObject(countryViewModel)
+                            } label: {
+                                CountryListView(country: country)
+                                    .frame(width: 380, height: 130)
+                                    .cornerRadius(20)
+                            }
                         }
                     }
+                    .padding(.top, 5)
                 }
-                .padding(.top, 5)
             }
             .padding()
         }
