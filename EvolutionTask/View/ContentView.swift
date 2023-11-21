@@ -9,48 +9,23 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var countryViewModel = CountryViewModel()
+    @State var animationFinished = false
     var body: some View {
-        NavigationStack {
-            VStack {
-                
-                TextField("Search", text: $countryViewModel.searchedCountry)
-                
-                HStack {
-                    Picker("Filter", selection: $countryViewModel.filterType) {
-                        ForEach(Filter.allCases, id: \.self) {
-                            Text($0.rawValue).tag($0)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .frame(width: 300)
-                    Spacer()
-                    
-                    Image(countryViewModel.order.rawValue)
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .onTapGesture {
-                            countryViewModel.order.toggle()
-                        }
-                }
-                
-                Spacer()
-                ScrollView {
-                    ForEach(countryViewModel.fetchedCountries ?? []) { country in
-                        NavigationLink {
-                            CountryDetailView(country: country)
-                                .environmentObject(countryViewModel)
-                        } label: {
-                            CountryListView(country: country)
-                                .frame(width: 380, height: 130)
-                                .cornerRadius(20)
-                        }
-                    }
-                }
-                .padding(.top, 5)
+        VStack {
+            if animationFinished {
+                SearchView()
+            } else {
+                LottieView(animationFileName: "JSON", loopMode: .playOnce)
+                    .frame(width: 200, height: 200)
             }
-            .padding()
         }
-        .accentColor(.black)
+        .onAppear{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                withAnimation {
+                    self.animationFinished = true
+                }
+            }
+        }
     }
 }
 
