@@ -14,6 +14,8 @@ struct SearchView: View {
             VStack {
                 
                 TextField("Search", text: $countryViewModel.searchedCountry)
+                    .autocorrectionDisabled(true)
+                    .textFieldStyle(.roundedBorder)
                 
                 HStack {
                     Picker("Filter", selection: $countryViewModel.filterType) {

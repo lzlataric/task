@@ -21,6 +21,7 @@ struct CountryDetailView: View {
                     .scaledToFill()
             } placeholder: {
                 ProgressView()
+                    .frame(width: 200, height: 200)
             }
             
             Text(country.name.official)
@@ -89,9 +90,6 @@ struct CountryDetailView: View {
             
             Link("See on Google Maps", destination: (URL(string: country.maps.googleMaps)!))
                 .foregroundColor(.blue)
-                //.padding(.top, 10)
-            
-            
         }
         .onAppear {
             Task {
