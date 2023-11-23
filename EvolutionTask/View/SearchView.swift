@@ -13,12 +13,12 @@ struct SearchView: View {
         NavigationStack {
             VStack {
                 
-                TextField("Search", text: $countryViewModel.searchedCountry)
+                TextField(AppStyle.Texts.search, text: $countryViewModel.searchedCountry)
                     .autocorrectionDisabled(true)
                     .textFieldStyle(.roundedBorder)
                 
                 HStack {
-                    Picker("Filter", selection: $countryViewModel.filterType) {
+                    Picker(AppStyle.Texts.filter, selection: $countryViewModel.filterType) {
                         ForEach(Filter.allCases, id: \.self) {
                             Text($0.rawValue).tag($0)
                         }
@@ -37,14 +37,14 @@ struct SearchView: View {
                 
                 if countryViewModel.searchedCountry == "" {
                     Spacer()
-                    Image("arrow")
+                    AppStyle.Images.arrow
                         .resizable()
                         .frame(width: 300, height: 300)
                         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                         .rotationEffect(.degrees(60))
                         .offset(y:-100)
                     
-                    Text("Start your search!")
+                    Text(AppStyle.Texts.startSearch)
                         .offset(y:-50)
                     Spacer()
                 } else {

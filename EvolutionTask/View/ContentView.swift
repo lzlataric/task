@@ -15,7 +15,7 @@ struct ContentView: View {
             if animationFinished {
                 SearchView()
             } else {
-                LottieView(animationFileName: "JSON", loopMode: .playOnce)
+                LottieView(animationFileName: AppStyle.Animations.homepageAnimation, loopMode: .playOnce)
                     .frame(width: 200, height: 200)
             }
         }

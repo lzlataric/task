@@ -11,7 +11,7 @@ struct CountryListView: View {
     var country: Country
     var body: some View {
         ZStack {
-            Color("Gray")
+            AppStyle.Colors.gray
             VStack {
                 Text(country.name.common)
                     .font(.title3)
@@ -32,38 +32,14 @@ struct CountryListView: View {
                         }
                         .padding(.leading, 15)
                         
-                        VStack {
-                            Image("population")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                            
-                            Text(String(country.population))
-                                .font(.footnote)
-                            Spacer()
-                        }.frame(width: 105)
+                        CountryInfoView(image: AppStyle.Images.population, text: String(country.population))
+                            .frame(width: 105)
                         
-                        VStack {
-                            Image("capital")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                            
-                            Text(country.capital?[0] ?? "Unknown")
-                                .multilineTextAlignment(.center)
-                                .font(.footnote)
-                            Spacer()
-                        }
-                        .frame(width: 100)
+                        CountryInfoView(image: AppStyle.Images.capital, text: country.capital?[0] ?? AppStyle.Texts.unknown)
+                            .frame(width: 100)
                         
-                        VStack {
-                            Image("area")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                            
-                            Text(String(country.area))
-                                .font(.footnote)
-                            Spacer()
-                        }
-                        .frame(width: 100)
+                        CountryInfoView(image: AppStyle.Images.area, text: String(country.area))
+                            .frame(width: 100)
                     }
                 }
                 .padding(.top, 5)

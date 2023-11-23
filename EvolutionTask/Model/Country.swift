@@ -8,7 +8,9 @@
 import Foundation
 
 struct Country: Codable, Identifiable {
-    let id = UUID()
+    var id: String {
+        UUID().uuidString
+    }
     var name: CountryName
     var capital: [String]?
     var region: String

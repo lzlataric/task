@@ -8,10 +8,12 @@
 import Foundation
 
 class DataRepository {
-
-    func getCountriesByName(countryName: String) async throws -> [Country] {
-        let endPoint = "https://restcountries.com/v3.1/name/\(countryName)"
-        guard let url = URL(string: endPoint) else {
+    private enum Constants {
+        static let baseURL = "https://restcountries.com/v3.1"
+    }
+    
+    func getCountries(urlString: String) async throws -> [Country] {
+        guard let url = URL(string: urlString) else {
             throw Errors.invalidURL
         }
         
@@ -20,7 +22,7 @@ class DataRepository {
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             throw Errors.invalidResponse
         }
-        
+    
         do {
             let decoder = JSONDecoder()
             return try decoder.decode([Country].self, from: data)
@@ -30,25 +32,14 @@ class DataRepository {
         }
     }
     
+    func getCountriesByName(countryName: String) async throws -> [Country] {
+        let urlString = "\(Constants.baseURL)/name/\(countryName)"
+        return try await getCountries(urlString: urlString)
+    }
+    
     func getCountriesByCode(countryCodes: [String]) async throws -> [Country] {
-        let endPoint = "https://restcountries.com/v3.1/alpha?codes=\(countryCodes.joined(separator: ","))"
-        guard let url = URL(string: endPoint) else {
-            throw Errors.invalidURL
-        }
-        
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw Errors.invalidResponse
-        }
-        
-        do {
-            let decoder = JSONDecoder()
-            return try decoder.decode([Country].self, from: data)
-        }
-        catch {
-            throw Errors.invalidData
-        }
+        let urlString = "\(Constants.baseURL)/alpha?codes=\(countryCodes.joined(separator: ","))"
+        return try await getCountries(urlString: urlString)
     }
 
 }

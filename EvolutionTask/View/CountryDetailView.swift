@@ -9,8 +9,8 @@ import SwiftUI
 
 struct CountryDetailView: View {
     @EnvironmentObject var countryViewModel: CountryViewModel
-    var country: Country
     @State var borderCountries: [Country] = []
+    var country: Country
     
     var body: some View {
         VStack {
@@ -27,45 +27,13 @@ struct CountryDetailView: View {
             Text(country.name.official)
                 .font(.largeTitle)
             
-            HStack(spacing: 5) {
-                Text("Languages:")
-                    .font(.headline)
-                Spacer()
-            }
-            .padding(.leading, 10)
-            .padding(.top, 5)
+            CountryItemView(title: "\(AppStyle.Texts.languages):", text: country.languages?.getListFromDictionary().joined(separator: ", ") ?? AppStyle.Texts.unknown)
             
-            HStack {
-                Text(country.languages?.getListFromDictionary().joined(separator: ", ") ?? "Unknown")
-                    .font(.subheadline)
-                Spacer()
+            CountryItemView(title: "\(AppStyle.Texts.timezones):", text: country.timezones.joined(separator: ", "))
+                        
+            if !borderCountries.isEmpty {
+                CountryItemView(title: "\(AppStyle.Texts.neighbours):")
             }
-            .padding(.leading, 10)
-            .padding(.top, 2)
-            
-            HStack(spacing: 5) {
-                Text("Timezones:")
-                    .font(.headline)
-                Spacer()
-            }
-            .padding(.leading, 10)
-            .padding(.top, 5)
-            
-            HStack {
-                Text(country.timezones.joined(separator: ", "))
-                    .font(.subheadline)
-                Spacer()
-            }
-            .padding(.leading, 10)
-            .padding(.top, 2)
-            
-            HStack(spacing: 5) {
-                Text("Neighbors:")
-                    .font(.headline)
-                Spacer()
-            }
-            .padding(.leading, 10)
-            .padding(.top, 5)
             
             ScrollView(.horizontal) {
                 HStack {
@@ -88,7 +56,7 @@ struct CountryDetailView: View {
             
             Spacer()
             
-            Link("See on Google Maps", destination: (URL(string: country.maps.googleMaps)!))
+            Link(AppStyle.Texts.googleMapsInfo, destination: (URL(string: country.maps.googleMaps)!))
                 .foregroundColor(.blue)
         }
         .onAppear {
